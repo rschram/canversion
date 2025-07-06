@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canversion: Interactive Documentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- 
+        Chosen Palette: "Calm Harmony" - A clean, professional theme with warm neutrals and a clear, functional accent color.
+        - Background: Slate 50 (#f8fafc)
+        - Text: Slate 800 (#1e293b)
+        - Primary Accent: Teal 600 (#0d9488) for interactive elements.
+        - Borders & Dividers: Slate 200/300 for soft separation.
+    -->
+    <!-- 
+        Application Structure Plan: A single-page application with a fixed navigation header for seamless exploration. The content is divided into three logical sections: 
+        1. A "Hero" section to introduce Canversion.
+        2. A "User Guide" with interactive elements like tabs for configuration files, a visual directory tree, and a clickable grid of tasks. This breaks down setup and usage into digestible, non-linear steps.
+        3. A "Developer Guide" that uses custom HTML/CSS diagrams to visually represent the app's architecture and data flow, making complex concepts easier to grasp than pure text.
+        This structure was chosen to cater to different user intents (quick start vs. deep dive) and to make the documentation explorable rather than just readable.
+    -->
+    <!-- 
+        Visualization & Content Choices:
+        - Configuration Files: Goal: Inform/Organize. Method: Interactive Tabs with annotated code blocks. Interaction: Click to toggle between global and class-specific configurations, with explanations for key settings. Justification: More engaging and less cluttered than showing all code at once. Library: Vanilla JS for tab switching.
+        - Directory Structure: Goal: Organize. Method: HTML/CSS Diagram using nested divs, borders, and flexbox. Justification: Provides a clear, visual map of the required file layout, which is far more intuitive than a plain text tree. Library/Method: HTML + Tailwind CSS.
+        - Task List: Goal: Inform/Organize. Method: Interactive grid of cards. Interaction: Clicking a card reveals details and an example command. Justification: A highly scannable and user-friendly way to present the available commands without overwhelming the user. Library/Method: Vanilla JS for click events.
+        - Architecture Diagram: Goal: Organize/Inform. Method: Horizontal flexbox diagram using styled divs and pseudo-elements for arrows. Justification: Visually communicates the core 5-stage pipeline of the application for developers. Library/Method: HTML + Tailwind CSS.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .active-nav {
+            color: #0d9488; /* teal-600 */
+            font-weight: 600;
+        }
+        .task-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .config-tab.active {
+            background-color: #f1f5f9; /* slate-100 */
+            border-color: #0d9488; /* teal-600 */
+            color: #0d9488;
+        }
+        .diagram-arrow::after {
+            content: '→';
+            font-size: 2rem;
+            color: #cbd5e1; /* slate-300 */
+            margin: 0 1rem;
+        }
+        .diagram-arrow:last-child::after {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased">
+    
+    <!-- Header -->
+    <header id="header" class="bg-white/80 backdrop-blur-lg fixed top-0 left-0 right-0 z-50 border-b border-slate-200">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-2">
+                    <span class="text-2xl font-bold text-teal-600">C</span>
+                    <h1 class="text-xl font-bold text-slate-800">Canversion</h1>
+                </div>
+                <nav class="hidden md:flex space-x-8 text-sm font-medium text-slate-600">
+                    <a href="#user-guide" class="hover:text-teal-600 transition-colors">User Guide</a>
+                    <a href="#developer-guide" class="hover:text-teal-600 transition-colors">Developer Guide</a>
+                    <a href="#tasks" class="hover:text-teal-600 transition-colors">Tasks</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="pt-16">
+        <!-- Hero Section -->
+        <section id="hero" class="py-20 sm:py-24 lg:py-32 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900">
+                    Hate Canvas? Love plain text?
+                </h1>
+                <p class="mt-6 text-2xl sm:text-3xl font-bold tracking-tight text-teal-600">
+                    Do a Canversion.
+                </p>
+                <p class="mt-8 max-w-3xl mx-auto text-lg text-slate-600">
+                    A command-line tool that automates the creation of course materials, letting you work in plain text and maintain a single source of truth for your entire course.
+                </p>
+            </div>
+        </section>
+
+        <!-- User Guide -->
+        <section id="user-guide" class="py-16 sm:py-20 lg:py-24">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold tracking-tight">User Guide</h2>
+                    <p class="mt-4 text-lg text-slate-600">Get up and running with Canversion.</p>
+                </div>
+
+                <!-- Installation -->
+                <div class="mt-12 max-w-4xl mx-auto">
+                    <h3 class="text-xl font-semibold mb-6 text-center">1. Installation & Setup</h3>
+                    <div class="bg-white p-6 rounded-lg border border-slate-200 space-y-4">
+                        <div>
+                            <h4 class="font-semibold">Prerequisites</h4>
+                            <ul class="list-disc list-inside mt-2 text-slate-600 space-y-1">
+                                <li>Python 3.10 or higher.</li>
+                                <li>Pandoc: Must be installed and available in your system's PATH.</li>
+                            </ul>
+                        </div>
+                         <hr class="border-slate-200">
+                        <div>
+                            <h4 class="font-semibold">Setup Steps</h4>
+                            <ol class="list-decimal list-inside mt-2 text-slate-600 space-y-2">
+                                <li>Clone the project to your local machine.</li>
+                                <li>Create a Python virtual environment: <code class="text-sm bg-slate-100 p-1 rounded">python3 -m venv venv</code></li>
+                                <li>Activate it: <code class="text-sm bg-slate-100 p-1 rounded">source venv/bin/activate</code></li>
+                                <li>Install dependencies: <code class="text-sm bg-slate-100 p-1 rounded">pip install pandas pyyaml jinja2 requests python-dateutil lxml</code></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Configuration -->
+                <div class="mt-16 max-w-4xl mx-auto">
+                    <h3 class="text-xl font-semibold mb-6 text-center">2. Configuration</h3>
+                    <div class="bg-white rounded-lg border border-slate-200">
+                        <div class="flex border-b border-slate-200">
+                            <button class="config-tab flex-1 p-3 font-semibold text-slate-600 border-b-2 border-transparent active" data-target="global-config">Global Config</button>
+                            <button class="config-tab flex-1 p-3 font-semibold text-slate-600 border-b-2 border-transparent" data-target="class-config">Class Config</button>
+                        </div>
+                        <div class="p-4 sm:p-6">
+                            <div id="global-config" class="config-content space-y-4">
+                                <p class="text-slate-600">Located in <code class="text-sm bg-slate-100 p-1 rounded">user_config/global_config.yaml</code>, this file holds your details, API keys, and default paths for all courses.</p>
+                                <pre class="bg-slate-900 text-white text-sm p-4 rounded-lg overflow-x-auto"><code class="language-yaml"># user_config/global_config.yaml
+user_details:
+  name: "Your Name"
+  email: "your.email@example.com"
+
+canvas:
+  base_url: "https://canvas.instructure.com"
+  api_token: "YOUR_CANVAS_API_TOKEN"
+
+pandoc:
+  executable: "pandoc"
+  default_csl_style: "/path/to/your/chicago-author-date.csl"
+
+paths:
+  course_data_root_dir: "/path/to/your/courses"</code></pre>
+                            </div>
+                            <div id="class-config" class="config-content hidden space-y-4">
+                                <p class="text-slate-600">Each course needs a <code class="text-sm bg-slate-100 p-1 rounded">class_config.yaml</code> file to define its specific metadata and map the filenames you use.</p>
+                                <pre class="bg-slate-900 text-white text-sm p-4 rounded-lg overflow-x-auto"><code class="language-yaml"># ANTH1001_S1_2025/class_config.yaml
+class_meta:
+  department_code: "ANTH"
+  unit_code: "1001"
+  title: "Introduction to Anthropology"
+  canvas_course_id: 12345
+
+input_sources:
+  yaml_files:
+    bibliography: "bib/references.csl.yaml"
+  csv_files_df:
+    weekly_schedule: "data/schedule.csv"
+  markdown_dirs:
+    topics: "weekly_notes"</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Directory Structure -->
+                <div class="mt-16 max-w-4xl mx-auto">
+                    <h3 class="text-xl font-semibold mb-6 text-center">3. Directory Structure</h3>
+                    <div class="bg-white p-6 rounded-lg border border-slate-200 text-sm font-mono text-slate-600">
+                        <div class="flex items-center"><span>/path/to/your/courses/</span></div>
+                        <div class="pl-4 border-l border-slate-200 ml-2">
+                            <div class="flex items-center"><span>└── ANTH1001_S1_2025/</span> <span class="ml-2 text-xs text-slate-400 font-sans">(class_id)</span></div>
+                            <div class="pl-4 border-l border-slate-200 ml-2">
+                                <div class="flex items-center"><span>├── class_config.yaml</span></div>
+                                <div class="flex items-center"><span>├── input/</span></div>
+                                <div class="pl-4 border-l border-slate-200 ml-2">
+                                    <div class="flex items-center"><span>├── csv/</span></div>
+                                    <div class="flex items-center"><span>├── topics/</span></div>
+                                    <div class="flex items-center"><span>└── bib/</span></div>
+                                </div>
+                                <div class="flex items-center"><span>└── output/</span> <span class="ml-2 text-xs text-slate-400 font-sans">(auto-generated)</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Developer Guide -->
+        <section id="developer-guide" class="py-16 sm:py-20 lg:py-24 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold tracking-tight">Developer Guide</h2>
+                    <p class="mt-4 text-lg text-slate-600">Understand the architecture and extend the application.</p>
+                </div>
+
+                <!-- Architecture -->
+                <div class="mt-12 max-w-5xl mx-auto">
+                    <h3 class="text-xl font-semibold mb-8 text-center">Application Architecture</h3>
+                    <div class="flex flex-col md:flex-row items-center justify-center text-center text-sm">
+                        <div class="diagram-arrow p-4">
+                            <div class="font-bold text-teal-600">1. Config</div>
+                            <div class="text-slate-500 mt-1">config_loader.py</div>
+                        </div>
+                         <div class="diagram-arrow p-4">
+                            <div class="font-bold text-teal-600">2. Load Data</div>
+                            <div class="text-slate-500 mt-1">data_loader.py</div>
+                        </div>
+                         <div class="diagram-arrow p-4">
+                            <div class="font-bold text-teal-600">3. Process</div>
+                            <div class="text-slate-500 mt-1">data_processor.py</div>
+                        </div>
+                         <div class="diagram-arrow p-4">
+                            <div class="font-bold text-teal-600">4. Template</div>
+                            <div class="text-slate-500 mt-1">template_manager.py</div>
+                        </div>
+                         <div class="diagram-arrow p-4">
+                            <div class="font-bold text-teal-600">5. Output</div>
+                            <div class="text-slate-500 mt-1">output_generator.py</div>
+                        </div>
+                    </div>
+                    <p class="text-center text-slate-600 mt-4">Canversion uses a five-stage pipeline to process your source files into final documents.</p>
+                </div>
+                
+                <!-- Extending -->
+                <div class="mt-16 max-w-4xl mx-auto">
+                     <h3 class="text-xl font-semibold mb-6 text-center">Extending Canversion</h3>
+                    <div class="bg-white p-6 rounded-lg border border-slate-200">
+                       <p class="text-slate-600 mb-4">Adding a new task follows the "Template → Function → Register" pattern:</p>
+                        <ol class="list-decimal list-inside space-y-2 text-slate-600">
+                            <li><span class="font-semibold">Create a Template:</span> Build a new <code class="text-sm bg-slate-100 p-1 rounded">.md.j2</code> file in the <code class="text-sm bg-slate-100 p-1 rounded">templates/</code> directory.</li>
+                            <li><span class="font-semibold">Write the Function:</span> Add a new <code class="text-sm bg-slate-100 p-1 rounded">generate_...()</code> function in <code class="text-sm bg-slate-100 p-1 rounded">app/main.py</code> that uses your new template.</li>
+                            <li><span class="font-semibold">Register the Task:</span> Add your new task's name to the <code class="text-sm bg-slate-100 p-1 rounded">AVAILABLE_TASKS</code> list and add an <code class="text-sm bg-slate-100 p-1 rounded">elif</code> block in <code class="text-sm bg-slate-100 p-1 rounded">main()</code> to call your function.</li>
+                        </ol>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Tasks Section -->
+        <section id="tasks" class="py-16 sm:py-20 lg:py-24">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold tracking-tight">Available Tasks</h2>
+                    <p class="mt-4 text-lg text-slate-600">Run one or more tasks from the command line.</p>
+                    <p class="mt-4 max-w-2xl mx-auto text-sm bg-slate-100 p-3 rounded-md font-mono text-slate-700">python -m app.main [CLASS_ID] --tasks [TASK_NAME]</p>
+                </div>
+                <div id="task-grid" class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    <!-- Task cards will be injected here by JS -->
+                </div>
+            </div>
+        </section>
+        
+    </main>
+    
+    <footer class="bg-white border-t border-slate-200">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center text-sm text-slate-500">
+            <p>Canversion: A plain text-first course material generator.</p>
+            <p class="mt-2">Built to escape the tyranny of the text box.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Navigation Highlighting ---
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('#header nav a');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.5
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        navLinks.forEach(link => {
+                            link.classList.remove('active-nav');
+                            if (link.getAttribute('href') === `#${id}`) {
+                                link.classList.add('active-nav');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // --- Config Tabs ---
+            const tabs = document.querySelectorAll('.config-tab');
+            const contents = document.querySelectorAll('.config-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const target = tab.dataset.target;
+
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+
+                    contents.forEach(content => {
+                        if (content.id === target) {
+                            content.classList.remove('hidden');
+                        } else {
+                            content.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+
+            // --- Task Cards Data ---
+            const tasks = [
+                { name: 'canvas_weekly_pages', description: 'Creates or updates a page for each week in Canvas.' },
+                { name: 'canvas_assignments', description: 'Creates or updates assignment dropboxes in Canvas.' },
+                { name: 'canvas_static_pages', description: 'Creates or updates static pages, like an overview or contact page.' },
+                { name: 'generate_syllabus_docx', description: 'Creates a formatted syllabus as a .docx file.' },
+                { name: 'wiki_weekly_pages', description: 'Creates Markdown files for each week for a static site.' },
+                { name: 'wiki_assignments', description: 'Creates Markdown files for each assignment.' },
+                { name: 'wiki_static_pages', description: 'Creates Markdown files for your static pages.' },
+                { name: 'wiki_overview', description: 'Creates a single overview Markdown file for your wiki.' },
+                { name: 'create_skeletons', description: 'Utility to create empty placeholder files for your content.' },
+            ];
+
+            const taskGrid = document.getElementById('task-grid');
+            tasks.forEach(task => {
+                const card = document.createElement('div');
+                card.className = 'task-card bg-white p-6 rounded-lg border border-slate-200 transition-all duration-300';
+                card.innerHTML = `
+                    <h4 class="font-bold text-teal-600">${task.name}</h4>
+                    <p class="mt-2 text-sm text-slate-600">${task.description}</p>
+                `;
+                taskGrid.appendChild(card);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+PyYAML>=6.0
+python-frontmatter>0.1.0
+pandas>=2.0
+Jinja2>=3.0
+requests>=2.25
+click>=8.0 # For a more advanced CLI, if you prefer over argparse
+python-decouple>=3.0 # Optional, for .env file support for secrets
+dokuwikixmlrpc>=0.6.0 # Optional, if using DokuWiki XML-RPC API

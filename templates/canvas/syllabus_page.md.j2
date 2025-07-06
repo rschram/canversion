@@ -1,0 +1,33 @@
+{# templates/canvas/syllabus_page.md.j2 #}
+# {{ page_title | default(course.class_details.title | default("Syllabus")) }}
+
+*{{ course.class_details.description | default("Welcome to the course!") }}*
+
+---
+{# This is where the prose content from your input/markdown_static_pages/syllabus_prose.md (or similar) would go #}
+{{ static_page_prose_content | default ("## Course Information\n\nDetails about the course structure, learning objectives, and policies will be provided here.") }}
+---
+
+## Course Schedule Summary
+
+| Week | Date       | Topic                               |
+|------|------------|-------------------------------------|
+{% for week in course.weeks %}
+| {{ week.week_number }} | {{ week.date | default('TBA') }} | {{ week.title | default('TBA') }} |
+{% endfor %}
+
+---
+## Major Assignments
+{% if course.assignments %}
+| Title        | Due Date   | Points    |
+|--------------|------------|-----------|
+{% for assign in course.assignments %}
+| {{ assign.title | default('N/A') }} | {{ assign.due_date | default('TBA') }} | {{ assign.points | default('N/A') }} |
+{% endfor %}
+{% else %}
+No major assignments listed here. Please see the full assignments list on Canvas.
+{% endif %}
+
+{# If citations are used anywhere in this template or in static_page_prose_content, #}
+{# Pandoc will create a bibliography section if --citeproc is used. #}
+## References

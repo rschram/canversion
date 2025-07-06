@@ -1,0 +1,41 @@
+{# templates/canvas/contact_page.md.j2 #}
+
+## Coordinator
+
+* **Name:** {{ course.class_details.teaching_staff.coordinator.name | default('N/A') }}
+* **Email:** [{{ course.class_details.teaching_staff.coordinator.email }}](mailto:{{ course.class_details.teaching_staff.coordinator.email }})
+{% if 'office' in course.class_details.teaching_staff.coordinator %}
+* **Office:** {{ course.class_details.teaching_staff.coordinator.office }}
+{% endif %}
+{% if 'office-hours' in course.class_details.teaching_staff.coordinator %}
+* **Office hours:** {{ course.class_details.teaching_staff.coordinator['office-hours'] }}
+{% endif %}
+
+
+{# This is the prose content from the source_file defined in your config #}
+{{ overview_prose_content }}
+
+
+
+{% if 'lecturers' in course.class_details.teaching_staff and course.class_details.teaching_staff.lecturers %}
+## Lecturer(s)
+{% for lecturer in course.class_details.teaching_staff.lecturers %}
+* **Name:** {{ lecturer.name | default('N/A') }}
+    {% if 'email' in lecturer %}
+    * **Email:** [{{ lecturer.email }}](mailto:{{ lecturer.email }})
+    {% endif %}
+    {% if 'office' in lecturer %}
+    * **Office:** {{ lecturer.office }}
+    {% endif %}
+{% endfor %}
+{% endif %}
+
+{% if 'tutors' in course.class_details.teaching_staff and course.class_details.teaching_staff.tutors %}
+## Tutor(s)
+{% for tutor in course.class_details.teaching_staff.tutors %}
+* **Name:** {{ tutor.name | default('N/A') }}
+    {% if 'email' in tutor %}
+    * **Email:** [{{ tutor.email }}](mailto:{{ tutor.email }})
+    {% endif %}
+{% endfor %}
+{% endif %}

@@ -1,0 +1,76 @@
+{# templates/syllabus/syllabus_template.md.j2 #}
+---
+title: "{{ course.class_details.title | default('Course syllabus') }}"
+subtitle: "{{ course.class_details.department_code | default('') }}{{ course.class_details.unit_code | default('') }} - {{ course.class_details.semester | default('') }} {{ course.class_details.year | default('') }}"
+date: {{ datetime.now() | anydate("%B %-d, %Y") }}
+---
+
+**{{ course.class_details.department_code | default('') }}{{ course.class_details.unit_code | default('') }}**
+
+**{{ course.class_details.semester | default('') }}, {{ course.class_details.year | default('') }}**  
+
+## Course description
+{{ course.class_details.description | default("No description provided.") }}
+
+## Teaching staff
+
+**Coordinator:**  
+
+{{ course.class_details.teaching_staff.coordinator.name | default('N/A') }}  
+{{ course.class_details.teaching_staff.coordinator.email | default('N/A') }}   
+{% if 'office' in course.class_details.teaching_staff.coordinator %}
+{{ course.class_details.teaching_staff.coordinator.office }}  
+{% endif %}
+
+{% if 'lecturers' in course.class_details.teaching_staff %}
+**Lecturer(s):**  
+{% for lecturer in course.class_details.teaching_staff.lecturers %}
+- Name: {{ lecturer.name | default('N/A') }}  
+  {% if 'email' in lecturer %}Email: {{ lecturer.email }}{% endif %}  
+  {% if 'office' in lecturer %}Office: {{ lecturer.office }}{% endif %}  
+{% endfor %} 
+{% endif %}
+
+{% if 'tutors' in course.class_details.teaching_staff %}
+**Tutor(s):**  
+{% for tutor in course.class_details.teaching_staff.tutors %}
+- Name: {{ tutor.name | default('N/A') }}  
+  {% if 'email' in tutor %}Email: {{ tutor.email }}{% endif %}  
+{% endfor %}
+{% endif %}
+
+{% if 'textbooks' in course.class_details %}
+## Required text(s)  
+{% for book in course.class_details.textbooks %}
+- *{{ book }}*  
+{% endfor %}
+{% endif %}
+
+{% if overview_prose_content %}
+---
+
+{{ overview_prose_content }} {# This is the Markdown prose from your input file #}
+
+---
+{% endif %}
+
+## Assignments summary
+{% if course.assignments %}
+| Title        | Due date   | Points    | Weight   | Length  | Hurdle task | 
+|--------------|------------|-----------|----------|---------|-------------|
+{% for assign in course.assignments %}
+| {{ assign.name | default('N/A') }} | {{ assign.due | anydate("%B %-d") | default('TBA') }} | {{ assign.points | default('N/A') }} | {{ assign.weight | default('N/A') }} | {{ assign.length | default('N/A') }} | {% if assign.hurdle == '1' %}Yes{% else %} {% endif %} |
+{% endfor %}
+{% else %}
+No assignments formally listed in this document. Please refer to Canvas.
+{% endif %}
+
+---
+
+## Weekly schedule
+| Week | Date       | Topic and reading(s) | 
+|------|------------|------------------------------------------------------|
+{% for week in course.weeks %}
+| {{ week.week_number }} | {{ week.date | anydate("%B %-d") | default('TBA') }} | **[[{{ week.week_number }}|{{ week.title | default('TBA') }}]]** {% if week.main_reading %}/ {{ week.main_reading | default('N/A') }}{% endif %}{% if week.other_reading %} / {{ week.other_reading | default('N/A') }}{% endif %} |
+{% endfor %}
+

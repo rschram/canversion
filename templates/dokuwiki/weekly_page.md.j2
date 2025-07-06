@@ -1,0 +1,61 @@
+{# templates/dokuwiki/weekly_page.md.j2 #}
+# Week {{ week.week_number }}: {{ week.title | default("N/A") }}
+
+**Date:** {{ week.date | default('N/A') }}
+{% if week.lecturer %}**Lecturer:** {{ week.lecturer }}{% endif %}
+
+---
+
+## Topic summary
+{{ week.topic_summary_md | default("_No summary available for this week._") }}
+
+---
+
+## Readings for this Week
+{% if week.main_reading %}
+- **Main reading:** {{ week.main_reading }} {# Citekey, e.g., [@Author2023] #}
+{% endif %}
+{% if week.other_readings %}
+**Other readings:**
+{% for reading_key in week.other_readings %}
+- {{ reading_key }} {# Citekey #}
+{% endfor %}
+{% endif %}
+{% if not week.main_reading and not week.other_readings %}
+- No specific readings assigned for this week.
+{% endif %}
+
+---
+
+## Keywords
+{% if week.keywords %}
+{% for kw in week.keywords %}- {{ kw }}
+{% endfor %}
+{% else %}
+- None specified.
+{% endif %}
+
+---
+
+## Learning outcomes
+{% if week.learning_outcomes %}
+{% for outcome in week.learning_outcomes %}
+- {{ outcome }}
+{% endfor %}
+{% else %}
+- None specified.
+{% endif %}
+
+---
+
+## Discussion questions
+{% if week.discussion_questions %}
+{% for dq in week.discussion_questions %}
+1. {{ dq }}
+{% endfor %}
+{% else %}
+- No specific discussion questions for this week.
+{% endif %}
+
+{# Pandoc will generate the bibliography here if --citeproc is used and references are cited #}
+## References

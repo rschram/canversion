@@ -1,0 +1,18 @@
+---
+title: {{ assignment.title }}
+---
+
+# {{ assignment.title }}
+
+* **Default due date:** {{ assignment.due | default('tba') }}
+* **Points:** {{ assignment.points | default('n/a') }}
+* **Weight:** {{ assignment.weight | default('n/a') }}
+* **Length (in words):** {{ assignment.length | default('n/a') }}
+
+{% if assignment.hurdle == "1" %}
+*You are required to submit this assignment to pass the class.*
+{% endif %}
+
+# Instructions
+
+{{ assignment.instructions_md | default("Instructions to be provided.") }}

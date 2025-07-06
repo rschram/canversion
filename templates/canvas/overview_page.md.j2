@@ -1,0 +1,11 @@
+
+{{ overview_prose_content }}
+
+
+## Weekly schedule
+| Week | Date       | Topic and reading(s) | 
+|:------|:------------|:------------------------------------------------------|
+{% for week in course.weeks %}
+| {{ week.week_number }} | {{ week.date | anydate("%B %-d") | default('TBA') }} | **{{ week.title | default('TBA') }}** {% if week.main_reading %}/ {{ week.main_reading | default('N/A') }}{% endif %}{% if week.other_reading %} / {{ week.other_reading | default('N/A') }}{% endif %} |
+{% endfor %}
+

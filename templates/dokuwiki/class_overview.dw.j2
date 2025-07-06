@@ -1,0 +1,70 @@
+{# templates/dokuwiki/class_overview.dw.j2 #}
+====== {{ page_title | default(course.class_details.title | default("Class Overview")) }} ======
+//{{ course.class_details.description | default("Welcome to the course.") }}//
+
+h2 Course Details
+  * **Department Code:** {{ course.class_details.department_code | default('N/A') }}
+  * **Unit Code:** {{ course.class_details.unit_code | default('N/A') }}
+  * **Semester:** {{ course.class_details.semester | default('N/A') }} {{ course.class_details.year | default('N/A') }}
+{% if course.class_details.course_level %}  * **Level:** {{ course.class_details.course_level }}{% endif %}
+{% if course.class_details.textbooks %}
+  * **Required Text(s):**
+{% for book in course.class_details.textbooks %}
+    * //{{ book }}//
+{% endfor %}
+{% endif %}
+
+{% if overview_prose_content %}
+---
+{{ overview_prose_content }} {# This is the DokuWiki syntax processed from your specific overview Markdown file #}
+{% endif %}
+
+---
+h2 Teaching Staff
+{% if course.class_details.teaching_staff.coordinator %}
+**Coordinator:** {{ course.class_details.teaching_staff.coordinator.name | default('N/A') }}{% if course.class_details.teaching_staff.coordinator.email %} ({{ course.class_details.teaching_staff.coordinator.email | mailto }}){% endif %}
+{% endif %}
+{% if course.class_details.teaching_staff.lecturers %}
+**Lecturers:**
+{% for lecturer in course.class_details.teaching_staff.lecturers %}
+  * {{ lecturer.name | default('N/A') }}{% if lecturer.email %} ({{ lecturer.email | mailto }}){% endif %}
+{% endfor %}
+{% endif %}
+{% if course.class_details.teaching_staff.tutors %}
+**Tutors:**
+{% for tutor in course.class_details.teaching_staff.tutors %}
+  * {{ tutor.name | default('N/A') }}{% if tutor.email %} ({{ tutor.email | mailto }}){% endif %}
+{% endfor %}
+{% endif %}
+
+---
+h2 Weekly Schedule
+You can find detailed weekly pages under the [[.weekly:|Weekly Topics]] section.
+
+^ Week ^ Date       ^ Topic                               ^ Main Reading(s) ^ Lecturer            ^
+{% for week in course.weeks %}
+| {{ week.week_number }} | {{ week.date | default('TBA') }} | [[.weekly:week_{{week.week_number|string|lower|replace(' ','_')}}|{{ week.title | default('TBA') }}]] | {{ week.main_reading | default('N/A') }} | {{ week.lecturer | default('TBA') }} |
+{% endfor %}
+
+---
+h2 Lecture Outlines
+{% if course.lecture_outlines %}
+Available lecture outlines:
+  {% for stem, content in course.lecture_outlines.items() %}
+  * [[.lectures:{{ stem }}|{{ stem.replace('_', ' ').replace('-', ' ').title() }}]]
+  {% endfor %}
+{% else %}
+  No lecture outlines currently available.
+{% endif %}
+
+---
+h2 Assignments
+{% if course.assignments %}
+Details for assignments can be found on the Canvas site.
+^ Title        ^ Due Date   ^ Points    ^
+{% for assign in course.assignments %}
+| {{ assign.title | default('N/A') }} | {{ assign.due_date | default('TBA') }} | {{ assign.points | default('N/A') }} |
+{% endfor %}
+{% else %}
+  No assignments listed yet. Check Canvas for details.
+{% endif %}

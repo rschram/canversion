@@ -1,0 +1,45 @@
+{# templates/wiki/weekly_page.md.j2 #}
+---
+title: "Week {{ week.week_number }}: {{ week.title }}"
+date: "{{ week.date }}"
+---
+
+# Week {{ week.week_number }}: {{ week.title | default("N/A") }}
+
+{{ course.class_details.department_code | default('') }} {{ course.class_details.unit_code | default('') }}: {{ course.class_details.title | replace(": ","---") | default('') }} ({{ course.class_details.semester | default('') }}, {{ course.class_details.year | default('') }})  
+{{ week.date | anydate("%B %-d, %Y") }}  
+
+**Main reading:** {{ week['main_reading'] | default("No readings assigned (yet)") }}
+
+{% if week['other_reading'] %}
+**Other reading:** {{ week['other_reading'] }}
+{% endif %}
+
+## Notes
+
+{{ week.topic_summary_md | default("Notes to be added later.") }}
+
+
+
+{% if week.keywords %}
+## Keywords
+
+{{ week.keywords | join(', ') }}
+{% endif %}
+
+{% if week.learning_outcomes %}
+## Learning outcomes
+
+{% for outcome in week.learning_outcomes %}
+- {{ outcome }}
+{% endfor %}
+{% endif %}
+
+{% if week.discussion_questions %}
+## Discussion questions
+
+{% for dq in week.discussion_questions %}
+- {{ dq }}
+{% endfor %}
+{% endif %}
+

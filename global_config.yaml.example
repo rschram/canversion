@@ -1,0 +1,16 @@
+# global_config.yaml.example
+
+user_details:
+  name: "Your Name"
+  email: "your.email@example.com"
+
+canvas:
+  base_url: "https://canvas.instructure.com" # Your institution's Canvas URL
+  api_token: "YOUR_CANVAS_API_TOKEN_HERE" # Get this from your Canvas profile settings
+
+pandoc:
+  executable: "pandoc"
+  default_csl_style: "/path/to/your/chicago-author-date.csl"
+
+paths:
+  course_data_root_dir: "/Users/yourname/Documents/Teaching"

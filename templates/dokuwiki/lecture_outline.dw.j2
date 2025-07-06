@@ -1,0 +1,12 @@
+{# templates/dokuwiki/lecture_outline.dw.j2 #}
+# {{ page_title | default("Lecture Outline") }} 
+
+## {{ page_title | default("Lecture Outline") }} 
+
+Course: //{{ class_details.title | default("N/A") }}// ({{ class_details.department_code | default("DEPT") }}{{ class_details.unit_code | default("000") }})
+Semester: {{ class_details.semester | default("N/A") }} {{ class_details.year | default("YYYY") }} 
+{% if class_details.teaching_staff.coordinator %}Coordinator: {{ class_details.teaching_staff.coordinator.name | default('N/A') }}{% endif %}
+
+----
+
+{{ pandoc_generated_dokuwiki_body | default("No outline content provided.") }}

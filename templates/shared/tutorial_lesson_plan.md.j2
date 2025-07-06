@@ -1,0 +1,68 @@
+{# templates/shared/tutorial_lesson_plan.md.j2 #}
+---
+title: "Tutorial Lesson Plan - Week {{ week.week_number }}: {{ week.title | default('N/A') }}"
+course: "{{ class_details.title | default('N/A') }} ({{ class_details.department_code }}{{ class_details.unit_code }})"
+date: "{{ week.date | default('N/A') }}" # Or you can generate a specific tutorial date
+# Add any other metadata useful for Pandoc (e.g., for PDF styling via LaTeX)
+# geometry: "left=1in,right=1in,top=1in,bottom=1in"
+# fontsize: 11pt
+---
+
+# Tutorial Lesson Plan
+
+## {{ class_details.title | default('') }}
+
+**Week {{ week.week_number }}: {{ week.title | default('N/A') }}**
+{% if week.date %}**Date for Main Lecture:** {{ week.date }}{% endif %}
+
+---
+
+### Learning Outcomes for this Week
+{% if week.learning_outcomes %}
+{% for outcome in week.learning_outcomes %}
+- {{ outcome }}
+{% endfor %}
+{% else %}
+- (No specific learning outcomes listed for this week)
+{% endif %}
+
+---
+
+### Assigned Readings for this Week
+{% if week.main_reading %}
+- **Main Reading:** {{ week.main_reading }} {# This is likely a citekey. It will be processed by Pandoc. #}
+{% endif %}
+{% if week.other_readings %}
+**Other Readings:**
+{% for reading in week.other_readings %}
+- {{ reading }} {# Also likely citekeys #}
+{% endfor %}
+{% endif %}
+{% if not week.main_reading and not week.other_readings %}
+- (No readings listed for this week)
+{% endif %}
+
+---
+
+### Discussion Questions for Tutorial
+{% if week.discussion_questions %}
+{% for dq in week.discussion_questions %}
+1. {{ dq }}
+{% endfor %}
+{% else %}
+- (No specific discussion questions listed for this week's tutorial)
+{% endif %}
+
+---
+
+### Tutor Notes
+* (Space for tutor's preparatory notes)
+* ...
+* ...
+
+---
+
+{% if bibliography_path %} 
+{# Include a References section if citations are used and processed by Pandoc #}
+## References
+{% endif %}

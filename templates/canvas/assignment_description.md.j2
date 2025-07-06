@@ -1,0 +1,27 @@
+{# templates/canvas/assignment_description.md.j2 #}
+{# This template generates the Markdown for the assignment's description field in Canvas #}
+
+::: {style="background-color:#ddd;padding:1em;margin:0 0 1em 0;"}
+
+**Points possible:** {{ assignment.points | default('N/A') }}  
+{% if assignment.weight %}
+**Weight:** {{ assignment.weight }}  
+{% endif %}
+{% if assignment.length %}
+**Length in words:** {{ assignment.length }}  
+{% endif %}
+{% if assignment.due %}
+**Default due date:** {{ assignment.due | anydate("%B %-d, %Y") }}  
+{% endif %}
+{# Add other relevant metadata from your assignment data here #} 
+:::
+
+{% if assignment.hurdle == "1" %}
+*You are required to submit this assignment in order to pass the class.*
+{% endif %}
+
+
+{{ assignment.instructions_md | default("Instructions to be provided.") }}
+
+
+

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" demote-non-dropping-particle="sort-only">
+  <info><title>Minimal Example CSL</title><id>http://example.com/minimal-csl</id><link href="http://example.com/minimal-csl" rel="self"/><updated>2024-05-24T00:00:00+00:00</updated></info>
+  <citation et-al-min="3" et-al-use-first="1" disambiguate-add-names="true"><layout prefix="(" suffix=")" delimiter="; "><text variable="citation-label"/></layout></citation>
+  <bibliography entry-spacing="0" hanging-indent="true"><sort><key variable="author"/><key variable="issued"/></sort><layout><text variable="citation-label" suffix=". "/><text variable="title"/><date variable="issued" prefix=" (" suffix=")."/></layout></bibliography>
+</style>

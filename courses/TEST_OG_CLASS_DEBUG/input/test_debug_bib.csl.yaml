@@ -1,0 +1,29 @@
+---
+references:
+- id: zigon
+  accessed:
+    - year: 2025
+      month: 1
+      day: 22
+  author:
+    - family: Zigon
+      given: Jarrett
+  citation-key: zigon
+  container-title: Cultural Anthropology
+  container-title-short: Cultural Anthropology
+  DOI: 10.1111/cuan.12034
+  ISSN: '08867356'
+  issue: '4'
+  issued:
+    - year: 2013
+      month: 11
+  language: en
+  license: http://doi.wiley.com/10.1002/tdm_license_1.1
+  page: 716-736
+  source: DOI.org (Crossref)
+  title: 'Human Rights as Moral Progress?: A Critique'
+  title-short: Human Rights as Moral Progress?
+  type: article-journal
+  URL: https://onlinelibrary.wiley.com/doi/10.1111/cuan.12034
+  volume: '28'
+...

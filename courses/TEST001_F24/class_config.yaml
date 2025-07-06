@@ -1,0 +1,131 @@
+# ---
+# Comprehensive Example: class_config.yaml
+# ---
+
+# -----------------------------------------------------------------------------
+# class_meta: Core information about the course offering.
+# Used in titles, headers, and general information across many generated documents.
+# -----------------------------------------------------------------------------
+class_meta:
+  department_code: "ANTH"
+  unit_code: "1001"
+  semester: "Semester 1"
+  year: 2025
+  title: "Introduction to Cultural Anthropology"
+  description: "A foundational course exploring the diversity of human cultures, social structures, and systems of meaning across the globe."
+  canvas_course_id: 12345  # The numerical ID of your course in Canvas.
+  dokuwiki_namespace: "courses:anth1001:s1_2025" # Namespace for all DokuWiki pages for this course.
+
+# -----------------------------------------------------------------------------
+# teaching_staff: Contact and role information for course staff.
+# Used for generating contact lists on overview pages and syllabi.
+# -----------------------------------------------------------------------------
+teaching_staff:
+  coordinator: 
+    name: "Dr. Eleanor Vance"
+    email: "eleanor.vance@university.edu"
+    office: "Social Sciences Building, Room 402"
+  lecturers:
+    - name: "Dr. Eleanor Vance"
+      email: "eleanor.vance@university.edu"
+    - name: "Prof. Jasper Finch"
+      email: "jasper.finch@university.edu"
+  tutors:
+    - name: "Sam Carter"
+    - name: "Rowan Ellis"
+
+# -----------------------------------------------------------------------------
+# input_sources: Defines where to find all your source data files.
+# All paths are relative to this class's 'input/' directory.
+# This section gives you full control over your file naming and organization.
+# -----------------------------------------------------------------------------
+input_sources:
+  # Map internal keys to your YAML filenames.
+  yaml_files:
+    class_info: "course_details.yaml"
+    bibliography: "bibliography/main_references.csl.yaml"
+
+  # Map internal keys to your CSV filenames.
+  # To disable loading a default file (and avoid "not found" warnings), set its value to null.
+  csv_files_df:
+    weekly_schedule: "schedules/weekly_plan.csv"
+    assignments: "schedules/assignment_list.csv"
+    weekly_keywords: "weekly_details/keywords.csv"
+    weekly_outcomes: "weekly_details/outcomes.csv"
+    weekly_discussion_questions: "weekly_details/discussion_prompts.csv"
+    weekly_brain_candy: null # This file is optional and will not be loaded.
+
+  # Map internal keys to your directory names for collections of Markdown files.
+  markdown_dirs:
+    topics: "weekly_topics"
+    assignment_instructions: "assignment_instructions"
+    lecture_outlines: "lecture_notes"
+    lecture_scripts: "lecture_notes" # Can point to the same directory as outlines
+
+  # Defines individual static pages. This is a list of objects.
+  static_pages:
+    - slug: "syllabus_prose" # A key for the main syllabus text
+      source_file: "static_content/syllabus_main_text.md"
+
+    - slug: "class_overview_content" # Key for the DokuWiki overview prose
+      source_file: "static_content/dokuwiki_overview_prose.md"
+
+    - slug: "contact_information"
+      title: "How to Contact Us"
+      source_file: "static_content/contact.md"
+      # No 'template' key, so this will be a direct MD-to-HTML conversion.
+
+    - slug: "academic_honesty"
+      title: "Academic Honesty Policy"
+      source_file: "static_content/honesty_policy.md"
+
+# -----------------------------------------------------------------------------
+# canvas_content_defaults: Default publishing states for content pushed to Canvas.
+# -----------------------------------------------------------------------------
+canvas_content_defaults:
+  publish_pages: false       # Create Canvas pages as unpublished drafts.
+  publish_assignments: false # Create Canvas assignments as unpublished drafts.
+
+# -----------------------------------------------------------------------------
+# dokuwiki: Settings specific to DokuWiki page generation.
+# -----------------------------------------------------------------------------
+dokuwiki:
+  # The pagename for the main class overview page (e.g., 'start', 'home', 'overview').
+  overview_page_name: "start"
+  # The 'slug' from 'input_sources.static_pages' that holds the prose for the overview.
+  overview_prose_slug_key: "class_overview_content"
+
+# -----------------------------------------------------------------------------
+# syllabus_settings: Settings for the 'generate_syllabus_docx' task.
+# -----------------------------------------------------------------------------
+syllabus_settings:
+  # The 'slug' from 'input_sources.static_pages' that holds the main prose for the syllabus.
+  prose_slug_key: "syllabus_prose"
+  # Optional: Path to a reference.docx for styling (relative to project root or absolute).
+  # reference_docx: "templates/styles/syllabus_reference.docx"
+
+# -----------------------------------------------------------------------------
+# static_page_settings: Configuration for "dynamic" static pages that need special templates.
+# The keys here must match a 'slug' from the 'input_sources.static_pages' list above.
+# -----------------------------------------------------------------------------
+static_page_settings:
+  # This static page will not be generated directly. Instead, its prose content
+  # is used by other tasks like 'generate_syllabus_docx' and 'dokuwiki_class_overview'.
+  # It is defined in 'input_sources.static_pages' so that data_loader loads its content.
+  # We do not list 'syllabus_prose' or 'class_overview_content' here because we don't
+  # want a standalone Canvas page created for them.
+
+  # Example of a page that WOULD use this section:
+  # courses_of_study:
+  #   template: "canvas/dynamic_courses_page.md.j2"
+  #   canvas_title: "Related Courses of Study"
+
+# -----------------------------------------------------------------------------
+# skeleton_file_targets: Defines which blank Markdown files to create with the 'create_skeletons' task.
+# The value for each key must match a key from 'input_sources.markdown_dirs'.
+# -----------------------------------------------------------------------------
+skeleton_file_targets:
+  weekly_topics: "topics"                 # Creates a file for each week in the 'topics' markdown dir.
+  lecture_outlines: "lecture_outlines"    # Creates a file for each week in the 'lecture_outlines' dir.
+  lecture_scripts: "lecture_scripts"      # Creates a file for each week in the 'lecture_scripts' dir.
+  assignment_instructions: "assignment_instructions" # Creates a file for each assignment.
